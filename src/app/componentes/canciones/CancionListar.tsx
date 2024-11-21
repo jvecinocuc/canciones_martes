@@ -1,4 +1,18 @@
+import { useState } from "react";
+import { Cancion } from "../modelos/Cancion";
+import { ARREGLO_CANCIONES } from "../mocks/Canciones_mocks";
+import { ARREGLO_CANCION_GENERO } from "../../utilidades/dominios/domgenero";
+
 export const CancionListar = () => {
+  const [arrCancion] =useState<Cancion[]>(ARREGLO_CANCIONES);
+
+  const obtenerNombre =(valor: string)=>{
+    for(const objGenero of ARREGLO_CANCION_GENERO){
+      if(objGenero.codGenero==valor){
+        return objGenero.nombreGenero;
+      }
+    }
+  }
   return (
     <>
       <div className="pt-5 d-flex justify-content-center">
@@ -6,42 +20,30 @@ export const CancionListar = () => {
           <table className="table table-striped">
             <thead>
               <tr>
-                <th scope="col">No.</th>
-                <th scope="col">Titulo Cancion</th>
-                <th scope="col">Artista</th>
-                <th scope="col">Duracion</th>
-                <th scope="col">Genero</th>
+                <th style={{width: "5%"}}>Código</th>
+                <th style={{width: "30%"}}>Nombre Cancion</th>
+                <th style={{width: "25%"}}>Artista</th>
+                <th style={{width: "20%"}}>Genero</th>
+                <th style={{width: "20%"}}>imagen</th>
               </tr>
             </thead>
-            <tbody className="table-group-divider">
-              <tr>
-                <td>1</td>
-                <td>La noche</td>
-                <td>Joe arroyo</td>
-                <td>4.5</td>
-                <td>Salsa</td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>Camino largo</td>
-                <td>Diomedes diaz</td>
-                <td>4.7</td>
-                <td>Vallenato</td>
-              </tr>
-              <tr>
-                <td>3</td>
-                <td>Borro Cassette</td>
-                <td>Maluma</td>
-                <td>4.8</td>
-                <td>Reggaeton</td>
-              </tr>
-              <tr>
-                <td>4</td>
-                <td>Magnetic</td>
-                <td>Illit</td>
-                <td>3.9</td>
-                <td>K-pop</td>
-              </tr>
+            <tbody>
+
+              {arrCancion.map((miCan: Cancion)=>( 
+                <tr>
+                <td>{miCan.codCancion}</td>
+                <td>{miCan.nombreCancion}</td>
+                <td>{miCan.artistaCancion}</td>
+                <td>{obtenerNombre(miCan.generoCancion)}</td>
+                <td>
+                  <img src={miCan.imagenCancionBase64} alt={miCan.nombreCancion} className="imagenListado" />
+                
+                  <br />
+                  <td>{miCan.imagenCancion}</td></td>
+              </tr>))}
+              
+          
+              
             </tbody>
           </table>
         </div>
@@ -49,3 +51,4 @@ export const CancionListar = () => {
     </>
   );
 };
+  
